@@ -1,0 +1,16 @@
+{
+  "name": "first-three-years",
+  "version": "1.0.0",
+  "description": "头三年 · 0–3 岁育儿白纸手记（蒙台梭利教育 & 正面管教移动端优先长文指南）",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "dev": "node scripts/dev.mjs",
+    "deploy:check": "npx --yes wrangler@4.128.0 deploy --dry-run --config wrangler.jsonc",
+    "deploy": "npm run build && npx --yes wrangler@4.128.0 deploy --config wrangler.jsonc"
+  },
+  "author": "holynova",
+  "license": "MIT"
+}
