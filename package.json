@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:pages": "npm run build && rm -rf docs && cp -R dist docs && touch docs/.nojekyll",
     "validate": "node scripts/validate.mjs",
     "dev": "node scripts/dev.mjs",
     "deploy:check": "npx --yes wrangler@4.128.0 deploy --dry-run --config wrangler.jsonc",
