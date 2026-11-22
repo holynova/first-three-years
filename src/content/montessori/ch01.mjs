@@ -92,6 +92,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-01b",
+      src: "./assets/illustrations/m-01b-observe-10min.png",
+      alt: "小黑手绘图解：大人背手蹲在一旁看十分钟沙漏，忍住不伸手，让小朋友自己专注拧开瓶盖",
+      caption: "今晚先试一次最省钱的蒙氏练习：定十分钟闹钟，把双手背在身后，只看、不插手、不打断。"
+    },
+    {
       type: "myths",
       id: "sec-ch01-myths",
       title: "关于蒙台梭利，最容易踩的 3 个误区",

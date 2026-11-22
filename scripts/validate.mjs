@@ -134,8 +134,8 @@ async function main() {
     }
   }
 
-  if (seenIllustrations.size < 12) {
-    errors.push(`Expected 12 unique illustrations used across chapters, found ${seenIllustrations.size}`);
+  if (seenIllustrations.size < 23) {
+    errors.push(`Expected 23 unique illustrations used across chapters, found ${seenIllustrations.size}`);
   }
 
   // Validate SOS shortcuts & comboRouter links

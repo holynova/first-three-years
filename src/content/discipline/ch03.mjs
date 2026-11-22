@@ -60,6 +60,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-d03b",
+      src: "./assets/illustrations/d-03b-signal-radio.png",
+      alt: "小黑手绘图解：小黑转动收音机旋钮，把尖叫打人的杂音调成饿困、不会说、想做主、要关注四个清晰频道",
+      caption: "尖叫和打人多半是失真的杂音，先拧一下旋钮，听清底层到底是饿困、不会说、想做主还是求关注。"
+    },
+    {
       type: "comparePair",
       title: "把动作读成“故意挑衅” vs 读出底层信号",
       badLabel: "只盯水面尖角（越治越拧巴）",

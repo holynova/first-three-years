@@ -124,20 +124,17 @@ function renderAll(opts = {}) {
 
 function openTocDrawer() {
   const overlay = document.getElementById("drawer-overlay");
-  document.getElementById("drawer-title").textContent = "全书章节目录";
+  document.getElementById("drawer-title").textContent = "目录";
   const body = document.getElementById("drawer-body");
   body.innerHTML = SITE_DATA.topicOrder.map(tid => {
     const t = SITE_DATA.topics[tid];
-    return `<div class="toc-section-label">${esc(t.code)} · ${esc(t.title)}（约 ${t.totalMinutes} 分钟）</div>` +
+    return `<div class="toc-section-label">${esc(t.title)}</div>` +
       t.chapters.map(ch => {
         const current = state.view === "read" && state.topicId === tid && state.chapterId === ch.id;
         const done = state.readChapters.includes(`${tid}/${ch.id}`);
         return `<button type="button" class="toc-row ${current ? "current" : ""}" data-open-topic="${tid}" data-open-chapter="${ch.id}">
-          <span class="t-num">${esc(ch.num)}</span>
-          <span class="t-main">
-            ${esc(ch.title)}
-            <span class="t-sub">${ch.minutes} 分钟${done ? " · ✓ 已读" : ""}</span>
-          </span>
+          <span class="t-main">${esc(ch.title)}</span>
+          ${done ? `<span class="t-done">✓</span>` : ""}
         </button>`;
       }).join("");
   }).join("");
@@ -148,18 +145,18 @@ function openSavedDrawer() {
   const overlay = document.getElementById("drawer-overlay");
   const all = getAllPrinciples();
   const saved = all.filter(p => state.savedIds.includes(p.id));
-  document.getElementById("drawer-title").textContent = `共读收藏夹（${saved.length} 条）`;
+  document.getElementById("drawer-title").textContent = saved.length ? `收藏 ${saved.length}` : "收藏";
   const body = document.getElementById("drawer-body");
   body.innerHTML = saved.length
-    ? `<button type="button" class="copy-saved-btn" data-action="copy-saved">一键复制全部收藏（发微信 / 备忘录）</button>` +
+    ? `<button type="button" class="copy-saved-btn" data-action="copy-saved">一键复制全部收藏</button>` +
       saved.map(p => `<div class="principle-item" style="margin-bottom:10px;">
         <div>
-          <div style="font-size:11.5px;font-weight:700;color:var(--orange);margin-bottom:3px;">${esc(p.topicTitle)} · 第 ${esc(p.chapterNum)} 节</div>
+          <div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:3px;">${esc(p.topicTitle)}</div>
           <div class="principle-text">${esc(p.text)}</div>
         </div>
         <button type="button" class="save-btn" aria-pressed="true" data-remove-save="${esc(p.id)}">移除</button>
       </div>`).join("")
-    : `<p style="font-size:14px;color:var(--muted);padding:18px 0;">还没有收藏内容。在任意一节末尾点击“☆ 收藏”就能攒到这里。</p>`;
+    : `<p style="font-size:14px;color:var(--muted);padding:18px 0;">还没有收藏。在每节末尾点“收藏”即可保存。</p>`;
   overlay.hidden = false;
 }
 

@@ -90,7 +90,7 @@ export default {
       why: "1–2 岁翻抽屉不是故意跟你作对，是手眼协调和探索欲刚开机。用蒙氏把不能碰的收上高柜、底层留两个可安全开关的旧盒子，能直接省掉每天一半的吼叫。",
       targetTopic: "montessori",
       targetChapter: "ch02",
-      targetLabel: "读蒙氏 02 节：把世界降到 80 厘米"
+      targetLabel: "看《把世界降到 80 厘米》"
     },
     {
       id: "spoon",
@@ -99,7 +99,7 @@ export default {
       why: "环境已经配合好了他依然扔勺子，往往是在测试因果关系或已经吃饱无聊。不要讲大道理，平静说一句短话后把餐盘收走，用行动立边界。",
       targetTopic: "discipline",
       targetChapter: "ch05",
-      targetLabel: "读正面管教 05 节：吃饭扔勺完整话术"
+      targetLabel: "看《吃饭扔勺完整话术》"
     },
     {
       id: "focus",
@@ -108,7 +108,7 @@ export default {
       why: "很多孩子发脾气是因为正在专心倒豆子或套袜子，被大人频繁“我来帮你”“宝贝真棒”打断。先忍住手退后 10 秒看他怎么自己试完。",
       targetTopic: "montessori",
       targetChapter: "ch05",
-      targetLabel: "读蒙氏 05 节：别一口一口打断专注力"
+      targetLabel: "看《专注力保护指南》"
     },
     {
       id: "meltdown",
@@ -117,7 +117,7 @@ export default {
       why: "前额叶在疲惫饥饿时彻底下线。这时候不管环境摆得多完美、规矩讲得多清楚都听不进去，先抱起来共情两分钟，等呼吸平稳再转移离开。",
       targetTopic: "discipline",
       targetChapter: "ch01",
-      targetLabel: "读正面管教 01 节：为什么讲道理像对断开蓝牙的音箱喊话"
+      targetLabel: "看《跟 2 岁娃讲道理为何失灵》"
     }
   ],
   bibliography: [

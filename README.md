@@ -1,8 +1,8 @@
 # 头三年 · First Three Years
 
-中文：专为 0–3 岁家长编写的移动端优先育儿科普手册。采用「白纸手记」极简排版，包含蒙台梭利教育（7 节）与正面管教（6 节）完整长文、12 张小黑纯白手绘图解，以及分月龄改造与高频崩盘话术对照工具。
+中文：专为 0–3 岁家长编写的移动端优先育儿科普手册。采用「白纸手记」极简排版，包含蒙台梭利教育（7 节）与正面管教（6 节）完整长文、23 张小黑纯白手绘图解，以及分月龄改造与高频崩盘话术对照工具。
 
-English: A mobile-first parenting handbook for ages 0–3 built with a clean white-sketchbook interface. It pairs full-length Chinese guides on Montessori education (7 chapters) and Positive Discipline (6 chapters) with 12 custom hand-drawn illustrations, age-specific home checklists, and interactive conflict scripts.
+English: A mobile-first parenting handbook for ages 0–3 built with a clean white-sketchbook interface. It pairs full-length Chinese guides on Montessori education (7 chapters) and Positive Discipline (6 chapters) with 23 custom hand-drawn illustrations, age-specific home checklists, and interactive conflict scripts.
 
 ![头三年 0–3 岁育儿白纸手记移动端截图](./assets/screenshot.png)
 

@@ -65,6 +65,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-03b",
+      src: "./assets/illustrations/m-03b-mirror-recorder.png",
+      alt: "小黑手绘图解：大人低头刷手机，旁边的小朋友像全自动录屏机一样一比一复制这个姿势",
+      caption: "0–3 岁不靠背道理长大，他像一台开机就录的摄像机，一比一复制你每天最常摆出来的姿态。"
+    },
+    {
       type: "ageTabs",
       id: "sec-ch03-age",
       widgetKey: "m_ch03_age",

@@ -147,6 +147,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-04b",
+      src: "./assets/illustrations/m-04b-watch-yield-step.png",
+      alt: "小黑手绘图解三步法：先蹲下看孩子重复什么，再让出安全替代物，最后风潮过去就撤走",
+      caption: "接住敏感期只做三步：先看他自发重复什么，再顺势让出安全替代品，热情退潮就干脆撤掉。"
+    },
+    {
       type: "myths",
       id: "sec-myths",
       title: "早教群里最常吓唬人的四个敏感期话术",

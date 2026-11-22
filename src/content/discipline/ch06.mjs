@@ -61,6 +61,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-d06b",
+      src: "./assets/illustrations/d-06b-repair-glue.png",
+      alt: "小黑手绘图解：裂开红缝的杯子代表刚才吼太大声，小黑拿金漆认真道歉不甩锅把杯子修好",
+      caption: "没有父母能做到从不失控；吼完降温回来认真道歉、绝不甩锅给孩子，裂开的关系就能亲手修好。"
+    },
+    {
       type: "heading",
       id: "sec-survival",
       num: "03",

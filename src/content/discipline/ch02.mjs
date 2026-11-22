@@ -65,6 +65,13 @@ export default {
       cite: "和善而坚定的日常分寸"
     },
     {
+      type: "figure",
+      id: "sec-fig-d02b",
+      src: "./assets/illustrations/d-02b-swing-trap.png",
+      alt: "小黑手绘图解：左边钟摆在“先讨好退让”和“憋不住爆吼”之间剧烈摆动，右边小黑稳稳扶平标尺说一遍",
+      caption: "最消耗全家的不是立规矩，而是在先退让和后爆吼之间反复横跳；稳住语气，只说一遍就按规矩做。"
+    },
+    {
       type: "scriptCompare",
       id: "sec-scripts",
       widgetKey: "d_ch02_quadrants",

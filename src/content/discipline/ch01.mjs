@@ -90,6 +90,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-d01b",
+      src: "./assets/illustrations/d-01b-cut-80-to-8.png",
+      alt: "小黑手绘图解：小黑拿剪刀剪掉一团乱麻似的 80 字长篇大论，只留下一句“先抱抱再刷牙”",
+      caption: "情绪正冲在头上时，80 字道理听起来全像噪音；拿剪刀砍成不到 8 个字的短句，孩子才接得住。"
+    },
+    {
       type: "scriptCompare",
       id: "sec-scripts",
       widgetKey: "d_ch01_scripts",

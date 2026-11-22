@@ -91,6 +91,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-07",
+      src: "./assets/illustrations/m-07-handoff-baton.png",
+      alt: "小黑手绘图解：矮架环境已改到位但孩子困了崩溃大哭，小黑把接力棒交给蹲下抱住孩子的正面管教",
+      caption: "环境已经改到位，可孩子困了、饿了、情绪炸锅时，别硬扛——直接把接力棒交给正面管教接住情绪。"
+    },
+    {
       type: "decoder",
       id: "sec-limits",
       widgetKey: "m_ch07_limits",

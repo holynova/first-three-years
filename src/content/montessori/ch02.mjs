@@ -44,6 +44,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-02b",
+      src: "./assets/illustrations/m-02b-yes-zone.png",
+      alt: "小黑手绘图解：以 80 厘米为界，高柜收好剪刀和热水壶，矮架放安全生活用品让孩子随便摸",
+      caption: "把危险品全请上高柜，80 厘米以下留成闭眼随便摸的 Yes 区，每天至少少喊一半“不可以”。"
+    },
+    {
       type: "heading",
       id: "sec-80cm",
       num: "02",

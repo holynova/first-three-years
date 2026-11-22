@@ -93,6 +93,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "sec-fig-05b",
+      src: "./assets/illustrations/m-05b-praise-vs-notice.png",
+      alt: "小黑手绘图解：划掉空泛的“你真聪明”，改为具体描述“你把杯子叠稳了”，夸动作不贴标签",
+      caption: "等他抬头看你时，把空泛的“你真聪明”换成具体看见的动作——夸过程，不贴标签。"
+    },
+    {
       type: "scriptCompare",
       id: "sec-praise",
       widgetKey: "m_ch05_praise",
