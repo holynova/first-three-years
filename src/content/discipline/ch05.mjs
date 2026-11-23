@@ -22,6 +22,12 @@ export default {
       ]
     },
     {
+      type: "figure",
+      src: "./assets/illustrations/d-05c-market.webp",
+      alt: "孩子望着超市的扭蛋机，小黑提着菜篮蹲到他身边。",
+      caption: "“你很想要。今天只买菜。”在收银台边蹲一下，把这句话留给孩子听。"
+    },
+    {
       type: "heading",
       id: "sec-loop",
       num: "01",

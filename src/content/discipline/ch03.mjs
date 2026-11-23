@@ -22,6 +22,12 @@ export default {
       ]
     },
     {
+      type: "figure",
+      src: "./assets/illustrations/d-03c-block.webp",
+      alt: "孩子盯着碰到地板的积木，小黑指向积木旁的两道声响。",
+      caption: "再敲一下，孩子又停下来听。顺着他的目光看看，就多了一条理解这个动作的线索。"
+    },
+    {
       type: "heading",
       id: "sec-iceberg",
       num: "01",
@@ -77,6 +83,12 @@ export default {
       goodTitle: "“先看一眼时间、饭点和手里缺了什么，再决定怎么收场”",
       goodText: "先扫一眼是不是到困点饿点了；如果是手痒扔东西，安静收走不给反应；如果是缺抱抱，先蹲下抱满 30 秒再忙手里的活。",
       goodEffect: "不用每一回合都上纲上线成“立威教育”，至少八成日常小闹剧在变成崩溃大哭前就散了。"
+    },
+    {
+      type: "figure",
+      src: "./assets/illustrations/d-03d-cup.webp",
+      alt: "孩子伸手指向架上的杯子，小黑顺着手指去拿杯子。",
+      caption: "一句“想喝水”还说不出来时，孩子已经用手指告诉你要什么。"
     },
     {
       type: "decoder",

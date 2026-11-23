@@ -22,6 +22,12 @@ export default {
       ]
     },
     {
+      type: "figure",
+      src: "./assets/illustrations/d-06c-breathe.webp",
+      alt: "孩子在安全的地垫上玩球，小黑扶着水槽慢慢呼气。",
+      caption: "孩子在看得见的安全位置。大人可以先停一下，等声音慢下来再回去。"
+    },
+    {
       type: "heading",
       id: "sec-crash",
       num: "01",
@@ -92,6 +98,12 @@ export default {
       goodTitle: "“刚才我太急了、嗓门太大吓到你，对不起。是我没先深呼吸。现在我坐你旁边好吗？”",
       goodText: "清楚切分“你的行为需要改”和“我的脾气归我管”。允许孩子哭完再靠过来，大人守在旁边接住他。",
       goodEffect: "孩子既知道牛奶下次还是不能倒，又踏实地确认：不管刚才闹得多凶，爸爸妈妈还是那个扛得住事的大人。"
+    },
+    {
+      type: "figure",
+      src: "./assets/illustrations/d-06d-repair.webp",
+      alt: "小黑蹲到孩子身旁，一只手放在自己胸前，向孩子道歉。",
+      caption: "“刚才我声音太大，吓到你了。”说完可以等一等，让孩子自己决定什么时候靠近。"
     },
     {
       type: "checklist",

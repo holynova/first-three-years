@@ -110,6 +110,13 @@ export default {
       ]
     },
     {
+      type: "figure",
+      id: "fig-m-06b-wash-stand",
+      src: "./assets/illustrations/m-06b-wash-stand.webp",
+      alt: "孩子踩稳矮凳在洗手台洗手，小黑把擦手巾挂在伸手可及的地方。",
+      caption: "从站稳、洗手到擦干，把小方巾也放在孩子够得着的位置。"
+    },
+    {
       type: "heading",
       num: "03",
       title: "动手前先打勾：8 项小户型落地自检表"

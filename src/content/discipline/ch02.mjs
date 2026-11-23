@@ -22,6 +22,12 @@ export default {
       ]
     },
     {
+      type: "figure",
+      src: "./assets/illustrations/d-02c-screen.webp",
+      alt: "孩子趴在沙发扶手上望着平板，小黑回头看他，同时把平板放回架子。",
+      caption: "屏幕到点收起，大人还在身边，听孩子说他舍不得。"
+    },
+    {
       type: "heading",
       id: "sec-adler",
       num: "01",
@@ -170,6 +176,12 @@ export default {
           }
         }
       }
+    },
+    {
+      type: "figure",
+      src: "./assets/illustrations/d-02d-towel.webp",
+      alt: "孩子趴在地垫上，小黑撑开一条浴巾，在一旁等候。",
+      caption: "澡洗完了，孩子还有情绪。浴巾已经打开，大人可以陪他缓一会儿。"
     },
     {
       type: "myths",

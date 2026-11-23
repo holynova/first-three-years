@@ -22,6 +22,12 @@ export default {
       ]
     },
     {
+      type: "figure",
+      src: "./assets/illustrations/d-04c-shoes.webp",
+      alt: "孩子坐在玄关矮凳上指着自己的脚，小黑指向面前并排的两只鞋。",
+      caption: "出门前，可以把选择缩小到孩子眼前的一件事：先穿哪一只？"
+    },
+    {
       type: "heading",
       id: "sec-why-trim",
       num: "01",
@@ -90,6 +96,12 @@ export default {
           pitfall: "别把“休息小窝”当惩罚工具喊“你给我去垫子上呆着”，一旦贴上罚站标签，这个角落就废了。"
         }
       ]
+    },
+    {
+      type: "figure",
+      src: "./assets/illustrations/d-04d-routine.webp",
+      alt: "在高低两个漱口杯前，小黑和孩子一起把各自的牙刷放回杯中。",
+      caption: "一起把牙刷放回杯子。简单的动作，孩子跟着做一遍就能参与。"
     },
     {
       type: "heading",

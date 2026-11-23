@@ -2,7 +2,7 @@
 
 [English](README.en.md) · [打开网站](https://first-three-years.xiaosang.cc/) · [GitHub](https://github.com/holynova/first-three-years)
 
-从蒙台梭利或正面管教中选一篇，按章节读，再翻到适龄居家清单或冲突对话练习。两篇长文分成 7 章和 6 章，配有 23 幅手绘插图。
+从蒙台梭利或正面管教中选一篇，按章节读，再翻到适龄居家清单或冲突对话练习。两篇长文分成 7 章和 6 章，配有 46 幅手绘插图。
 
 <img src="assets/screenshot.png" width="360" alt="手机上阅读育儿手记">
 
