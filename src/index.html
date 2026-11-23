@@ -3,30 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="写给 0–3 岁孩子父母的育儿手记。从倒水、穿鞋和离开公园等生活场景，读懂蒙台梭利教育与正面管教。">
-<meta name="theme-color" content="#faf8f4">
+<meta name="description" content="头三年：专为 0–3 岁父母写的移动端优先育儿科普手册，拆解蒙台梭利教育与正面管教的底层逻辑、生活例子与避坑指南。">
 <title>头三年 · 0–3 岁育儿白纸手记</title>
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="stylesheet" href="./styles.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="e01c9f78-4607-4e60-b01c-77c8190b12b4"></script>
 </head>
 <body>
-<a class="skip-link" href="#main-canvas">跳到正文</a>
-<header class="topbar" id="topbar"></header>
-<main class="layout-frame" id="main-canvas" tabindex="-1"></main>
+<div class="app-root" id="app-root">
+  <header class="topbar" id="topbar"></header>
+  <nav class="jump-rail" id="jump-rail" aria-label="本节速跳" hidden></nav>
+  <div class="layout-frame" id="layout-frame">
+    <aside class="desktop-sidebar" id="desktop-sidebar" aria-label="全书章节导航"></aside>
+    <main class="main-canvas" id="main-canvas" tabindex="-1"></main>
+  </div>
+  <footer class="bottom-dock" id="bottom-dock" hidden></footer>
 
-<dialog id="drawer-overlay" class="sheet" aria-labelledby="drawer-title">
-  <header class="sheet-head">
-    <h2 id="drawer-title">目录</h2>
-    <button type="button" id="drawer-close" aria-label="关闭面板" autofocus>关闭</button>
-  </header>
-  <div class="sheet-body" id="drawer-body"></div>
-</dialog>
-<dialog class="lightbox-box" id="lightbox-overlay" aria-label="插图放大查看">
-  <header class="lightbox-head"><span>查看插图</span><button type="button" id="lightbox-close" autofocus>关闭</button></header>
-  <figure><img id="lightbox-img" alt=""><figcaption id="lightbox-cap"></figcaption></figure>
-</dialog>
-<div class="toast" id="toast" role="status" hidden></div>
+  <div class="overlay-backdrop" id="drawer-overlay" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+      <div class="sheet-head">
+        <strong id="drawer-title">目录</strong>
+        <button type="button" class="icon-close" id="drawer-close" aria-label="关闭">✕</button>
+      </div>
+      <div class="sheet-body" id="drawer-body"></div>
+    </div>
+  </div>
+
+  <div class="overlay-backdrop is-center" id="lightbox-overlay" hidden>
+    <div class="lightbox-box" role="dialog" aria-modal="true" aria-label="插图放大查看">
+      <div class="lightbox-head">
+        <span id="lightbox-title">小黑手绘配图</span>
+        <button type="button" class="icon-close" id="lightbox-close" aria-label="关闭大图">✕</button>
+      </div>
+      <div class="lightbox-img">
+        <img id="lightbox-img" src="" alt="">
+      </div>
+      <div class="lightbox-cap" id="lightbox-cap"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+</div>
 <script src="./app.js" defer></script>
 </body>
 </html>

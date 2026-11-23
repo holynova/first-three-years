@@ -5,7 +5,7 @@ const STORAGE_KEY = "first_three_years_state_v1";
 function loadPersisted() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return (raw && JSON.parse(raw)) || {};
+    return raw ? JSON.parse(raw) : {};
   } catch (e) {
     return {};
   }
@@ -30,13 +30,14 @@ const state = {
   topicId: "montessori",
   chapterId: "ch01",
   fontLarge: Boolean(persisted.fontLarge),
-  savedIds: Array.isArray(persisted.savedIds) ? persisted.savedIds : [],
+  savedIds: Array.isArray(persisted.savedIds) ? persisted.savedIds : ["m-ch02-p1", "d-ch01-p1"],
   readChapters: Array.isArray(persisted.readChapters) ? persisted.readChapters : [],
   checkedIds: Array.isArray(persisted.checkedIds) ? persisted.checkedIds : [],
   lastVisited: persisted.lastVisited || null,
   routerId: (SITE_DATA.comboRouter && SITE_DATA.comboRouter[0]?.id) || "mess",
   widgetState: {},
-  openMyths: {}
+  openMyths: {},
+  activeJump: ""
 };
 
 function parseHash() {
@@ -46,26 +47,30 @@ function parseHash() {
     return;
   }
   const parts = raw.split("/").filter(Boolean);
-  if (parts[0] === "topic" && SITE_DATA.topicOrder.includes(parts[1])) {
+  if (parts[0] === "topic" && SITE_DATA.topics[parts[1]]) {
     const topic = SITE_DATA.topics[parts[1]];
     const ch = topic.chapters.find(c => c.id === parts[2]) || topic.chapters[0];
     state.view = "read";
     state.topicId = topic.id;
     state.chapterId = ch.id;
+    state.activeJump = ch.jumpRail?.[0]?.id || "";
     state.lastVisited = { topicId: topic.id, chapterId: ch.id };
   } else {
     state.view = "home";
   }
 }
 
-const main = document.getElementById("main-canvas");
-const topbar = document.getElementById("topbar");
-const drawer = document.getElementById("drawer-overlay");
-const drawerBody = document.getElementById("drawer-body");
-const lightbox = document.getElementById("lightbox-overlay");
-
-function currentChapter() {
-  return SITE_DATA.topics[state.topicId].chapters.find(ch => ch.id === state.chapterId);
+function writeHash() {
+  const target = state.view === "read"
+    ? `#/topic/${state.topicId}/${state.chapterId}`
+    : "#/";
+  if (location.hash !== target) {
+    try {
+      history.replaceState(null, "", target);
+    } catch (e) {
+      location.hash = target;
+    }
+  }
 }
 
 function showToast(msg) {
@@ -80,131 +85,130 @@ function updateScrollProgress() {
   const fill = document.getElementById("progress-fill");
   if (!fill) return;
   const max = document.documentElement.scrollHeight - window.innerHeight;
-  const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 1;
-  fill.style.transform = `scaleX(${ratio})`;
+  const ratio = max > 0 ? Math.min(1, Math.max(0.08, window.scrollY / max)) : 0.25;
+  fill.style.width = Math.round(ratio * 100) + "%";
 }
 
-function renderAll(scrollTop = false) {
-  if (drawer.open) drawer.close();
-  if (lightbox.open) lightbox.close();
-  main.className = state.view === "read" ? "layout-frame is-reading" : "layout-frame is-home";
-  topbar.innerHTML = renderTopBar(state);
-  main.innerHTML = state.view === "read" ? renderReading(state) : renderHome(state);
-  document.title = state.view === "read"
-    ? `${currentChapter().title} · 头三年` : "头三年 · 0–3 岁育儿白纸手记";
-  savePersisted(state);
-  if (scrollTop) {
-    main.focus({ preventScroll: true });
-    window.scrollTo(0, 0);
+function renderAll(opts = {}) {
+  const frame = document.getElementById("layout-frame");
+  frame.className = state.view === "read" ? "layout-frame is-reading" : "layout-frame is-home";
+
+  document.getElementById("topbar").innerHTML = renderTopBar(state);
+
+  const rail = document.getElementById("jump-rail");
+  if (state.view === "read") {
+    rail.hidden = false;
+    rail.innerHTML = renderJumpRail(state);
+  } else {
+    rail.hidden = true;
+    rail.innerHTML = "";
   }
-  updateScrollProgress();
-}
 
-function showDrawer(title, html) {
-  document.getElementById("drawer-title").textContent = title;
-  drawerBody.innerHTML = html;
-  if (!drawer.open) drawer.showModal();
-  drawer.scrollTop = 0;
+  document.getElementById("desktop-sidebar").innerHTML = renderSidebar(state);
+  document.getElementById("main-canvas").innerHTML = state.view === "read" ? renderReading(state) : renderHome(state);
+
+  const dock = document.getElementById("bottom-dock");
+  if (state.view === "read") {
+    dock.hidden = false;
+    dock.innerHTML = renderBottomDock(state);
+  } else {
+    dock.hidden = true;
+    dock.innerHTML = "";
+  }
+
+  writeHash();
+  savePersisted(state);
+  if (opts.scrollTop) window.scrollTo({ top: 0, behavior: "instant" });
+  updateScrollProgress();
 }
 
 function openTocDrawer() {
-  const jumps = state.view === "read" ? `<h3 class="toc-section-label">本章速查</h3>${currentChapter().jumpRail
-    .map(j => `<button type="button" class="toc-jump" data-jump="${esc(j.id)}">${esc(j.label)}</button>`).join("")}` : "";
-  const contents = SITE_DATA.topicOrder.map(tid => {
+  const overlay = document.getElementById("drawer-overlay");
+  document.getElementById("drawer-title").textContent = "目录";
+  const body = document.getElementById("drawer-body");
+  body.innerHTML = SITE_DATA.topicOrder.map(tid => {
     const t = SITE_DATA.topics[tid];
-    return `<h3 class="toc-section-label">${esc(t.title)}</h3>` +
+    return `<div class="toc-section-label">${esc(t.title)}</div>` +
       t.chapters.map(ch => {
         const current = state.view === "read" && state.topicId === tid && state.chapterId === ch.id;
         const done = state.readChapters.includes(`${tid}/${ch.id}`);
-        return `<button type="button" class="toc-row ${current ? "current" : ""}" ${current ? 'aria-current="page"' : ""}
-          data-open-topic="${tid}" data-open-chapter="${ch.id}">
-          <span>${esc(ch.title)}</span>${done ? '<span class="t-done">已读</span>' : ""}</button>`;
+        return `<button type="button" class="toc-row ${current ? "current" : ""}" data-open-topic="${tid}" data-open-chapter="${ch.id}">
+          <span class="t-main">${esc(ch.title)}</span>
+          ${done ? `<span class="t-done">✓</span>` : ""}
+        </button>`;
       }).join("");
   }).join("");
-  showDrawer("目录", jumps + contents);
+  overlay.hidden = false;
 }
 
 function openSavedDrawer() {
-  const saved = getAllPrinciples().filter(p => state.savedIds.includes(p.id));
-  const items = saved.map(p => `<div class="principle-item"><div>
-      <div class="saved-topic">${esc(p.topicTitle)} · 第 ${Number(p.chapterNum)} 章</div>
-      <div class="principle-text">${esc(p.text)}</div>
-    </div><button type="button" class="save-btn" data-remove-save="${esc(p.id)}">移除</button></div>`).join("");
-  showDrawer("收藏", saved.length
-    ? '<button type="button" class="copy-saved-btn" data-action="copy-saved">复制全部收藏</button>' + items
-    : '<p>还没有收藏。每章末尾的「收藏」可以把想再读的句子留在这里。</p>');
+  const overlay = document.getElementById("drawer-overlay");
+  const all = getAllPrinciples();
+  const saved = all.filter(p => state.savedIds.includes(p.id));
+  document.getElementById("drawer-title").textContent = saved.length ? `收藏 ${saved.length}` : "收藏";
+  const body = document.getElementById("drawer-body");
+  body.innerHTML = saved.length
+    ? `<button type="button" class="copy-saved-btn" data-action="copy-saved">一键复制全部收藏</button>` +
+      saved.map(p => `<div class="principle-item" style="margin-bottom:10px;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:3px;">${esc(p.topicTitle)}</div>
+          <div class="principle-text">${esc(p.text)}</div>
+        </div>
+        <button type="button" class="save-btn" aria-pressed="true" data-remove-save="${esc(p.id)}">移除</button>
+      </div>`).join("")
+    : `<p style="font-size:14px;color:var(--muted);padding:18px 0;">还没有收藏。在每节末尾点“收藏”即可保存。</p>`;
+  overlay.hidden = false;
 }
 
-function jumpTo(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.tabIndex = -1;
-  el.focus({ preventScroll: true });
-  el.scrollIntoView({ block: "start" });
+function openLightbox(src, cap, alt) {
+  document.getElementById("lightbox-img").src = src;
+  document.getElementById("lightbox-img").alt = alt || "";
+  document.getElementById("lightbox-cap").textContent = cap || "";
+  document.getElementById("lightbox-overlay").hidden = false;
 }
 
 function navigateTo(topicId, chapterId, jumpAnchor) {
-  const target = `#/topic/${topicId}/${chapterId}`;
-  if (location.hash !== target) history.pushState(null, "", target);
-  parseHash();
-  renderAll(true);
-  if (jumpAnchor) jumpTo(jumpAnchor);
-}
-
-function refreshWidget(button) {
-  const box = button.closest(".widget-box");
-  const block = currentChapter().blocks.find(b => b.id === box.id);
-  const buttons = [...box.querySelectorAll("button")];
-  const index = buttons.indexOf(button);
-  box.outerHTML = renderBlock(block, state);
-  document.getElementById(block.id).querySelectorAll("button")[index]?.focus({ preventScroll: true });
-  updateScrollProgress();
-}
-
-function syncSavedCount() {
-  const button = topbar.querySelector('[data-action="open-saved"]');
-  button.textContent = state.savedIds.length ? `收藏 ${state.savedIds.length}` : "收藏";
-  for (const save of main.querySelectorAll("[data-save-id]")) {
-    const saved = state.savedIds.includes(save.dataset.saveId);
-    save.setAttribute("aria-pressed", saved);
-    save.textContent = saved ? "已收藏" : "收藏";
+  const topic = SITE_DATA.topics[topicId];
+  const ch = topic?.chapters?.find(c => c.id === chapterId) || topic?.chapters?.[0];
+  if (!topic || !ch) return;
+  state.view = "read";
+  state.topicId = topic.id;
+  state.chapterId = ch.id;
+  state.activeJump = jumpAnchor || ch.jumpRail?.[0]?.id || "";
+  state.lastVisited = { topicId: topic.id, chapterId: ch.id };
+  document.getElementById("drawer-overlay").hidden = true;
+  renderAll({ scrollTop: !jumpAnchor });
+  if (jumpAnchor) {
+    const el = document.getElementById(jumpAnchor);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  savePersisted(state);
 }
 
 document.addEventListener("click", e => {
-  if (e.target.closest(".skip-link")) {
-    e.preventDefault();
-    main.focus();
-    return;
-  }
   const btn = e.target.closest("button");
   if (!btn) {
-    if (e.target.matches("dialog")) {
-      const rect = e.target.getBoundingClientRect();
-      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) e.target.close();
-    }
+    if (e.target.id === "drawer-overlay") document.getElementById("drawer-overlay").hidden = true;
+    if (e.target.id === "lightbox-overlay") document.getElementById("lightbox-overlay").hidden = true;
     return;
   }
 
-  if (btn.id === "drawer-close" || btn.id === "lightbox-close") {
-    btn.closest("dialog").close();
+  if (btn.id === "drawer-close") {
+    document.getElementById("drawer-overlay").hidden = true;
+    return;
+  }
+  if (btn.id === "lightbox-close") {
+    document.getElementById("lightbox-overlay").hidden = true;
+    return;
+  }
+
+  if (btn.dataset.action === "go-home") {
+    state.view = "home";
+    renderAll({ scrollTop: true });
     return;
   }
   if (btn.dataset.action === "toggle-font") {
-    const article = main.querySelector("article");
-    const anchor = [...article.querySelectorAll("p, h2, figure, .widget-box")].find(el => el.getBoundingClientRect().top >= topbar.offsetHeight);
-    const previousTop = anchor?.getBoundingClientRect().top;
     state.fontLarge = !state.fontLarge;
-    article.classList.toggle("is-large", state.fontLarge);
-    btn.setAttribute("aria-pressed", state.fontLarge);
-    if (anchor && window.scrollY > 0) window.scrollBy(0, anchor.getBoundingClientRect().top - previousTop);
-    savePersisted(state);
-    updateScrollProgress();
-    return;
-  }
-  if (btn.dataset.action === "find-scenes") {
-    jumpTo("scenes-heading");
+    renderAll();
     return;
   }
   if (btn.dataset.action === "open-toc") {
@@ -253,21 +257,23 @@ document.addEventListener("click", e => {
 
   if (btn.dataset.routerId) {
     state.routerId = btn.dataset.routerId;
-    const router = document.getElementById("home-router");
-    router.innerHTML = renderRouter(state);
-    router.querySelector('[aria-pressed="true"]').focus({ preventScroll: true });
+    renderAll();
     return;
   }
 
   if (btn.dataset.jump) {
-    drawer.close();
-    jumpTo(btn.dataset.jump);
+    state.activeJump = btn.dataset.jump;
+    document.querySelectorAll(".rail-pill").forEach(el => {
+      el.classList.toggle("active", el.dataset.jump === btn.dataset.jump);
+    });
+    const target = document.getElementById(btn.dataset.jump);
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     return;
   }
 
   if (btn.dataset.widgetKey) {
     state.widgetState[btn.dataset.widgetKey] = btn.dataset.widgetVal;
-    refreshWidget(btn);
+    renderAll();
     return;
   }
 
@@ -275,7 +281,7 @@ document.addEventListener("click", e => {
     const k = btn.dataset.mythKey;
     const prev = state.openMyths[k] !== undefined ? state.openMyths[k] : k.endsWith("_0");
     state.openMyths[k] = !prev;
-    refreshWidget(btn);
+    renderAll();
     return;
   }
 
@@ -286,8 +292,7 @@ document.addEventListener("click", e => {
     } else {
       state.checkedIds = [...state.checkedIds, id];
     }
-    refreshWidget(btn);
-    savePersisted(state);
+    renderAll();
     return;
   }
 
@@ -295,20 +300,20 @@ document.addEventListener("click", e => {
     const id = btn.dataset.saveId;
     if (state.savedIds.includes(id)) {
       state.savedIds = state.savedIds.filter(x => x !== id);
-      showToast("已移除收藏");
+      showToast("已从共读夹移除");
     } else {
       state.savedIds = [...state.savedIds, id];
-      showToast("已加入收藏");
+      showToast("已存进共读夹");
     }
-    syncSavedCount();
+    renderAll();
     return;
   }
 
   if (btn.dataset.removeSave) {
     state.savedIds = state.savedIds.filter(x => x !== btn.dataset.removeSave);
     openSavedDrawer();
-    syncSavedCount();
-    (drawerBody.querySelector("[data-remove-save]") || document.getElementById("drawer-close")).focus();
+    document.getElementById("topbar").innerHTML = renderTopBar(state);
+    savePersisted(state);
     return;
   }
 
@@ -321,39 +326,18 @@ document.addEventListener("click", e => {
       state.readChapters = [...state.readChapters, k];
       showToast("本节已标为读完 ✓");
     }
-    const done = state.readChapters.includes(k);
-    btn.classList.toggle("is-done", done);
-    btn.setAttribute("aria-pressed", done);
-    btn.textContent = done ? "已读" : "标为已读";
-    savePersisted(state);
+    renderAll();
     return;
   }
 
   if (btn.dataset.zoomSrc) {
-    const img = document.getElementById("lightbox-img");
-    img.src = btn.dataset.zoomSrc;
-    img.alt = btn.dataset.zoomAlt || "";
-    document.getElementById("lightbox-cap").textContent = btn.dataset.zoomCap;
-    lightbox.showModal();
+    openLightbox(btn.dataset.zoomSrc, btn.dataset.zoomCap, btn.dataset.zoomAlt);
   }
-});
-
-document.addEventListener("keydown", e => {
-  const activeTab = e.target.closest('[role="tab"]');
-  if (!activeTab || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-  const tabs = [...activeTab.closest('[role="tablist"]').querySelectorAll('[role="tab"]')];
-  let index = tabs.indexOf(activeTab);
-  if (e.key === "Home") index = 0;
-  if (e.key === "End") index = tabs.length - 1;
-  if (e.key === "ArrowLeft") index = (index - 1 + tabs.length) % tabs.length;
-  if (e.key === "ArrowRight") index = (index + 1) % tabs.length;
-  e.preventDefault();
-  tabs[index].click();
 });
 
 window.addEventListener("hashchange", () => {
   parseHash();
-  renderAll(true);
+  renderAll({ scrollTop: true });
 });
 
 window.addEventListener("scroll", updateScrollProgress, { passive: true });
